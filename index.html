@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="./html2canvas.js"></script>
+    <script src="./dom-image.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+</head>
+
+<body>
+
+<div style="position: absolute; opacity: 0.0;">
+        <div id="tempImageThumbnail"></div>
+    </div>
+    
+
+</body>
+<script>
+var tempImageThumb = document.getElementById("tempImageThumbnail");
+tempImageThumb.innerHTML='<div id="parent-container"><div class="jumbotron text-center"><h1> 我的第一個引導頁面</h1><p>Resize this responsive page to see the effect!</p></div></div>';
+
+console.log(tempImageThumb)
+   domtoimage.toPng(tempImageThumb)
+    .then(function (imgData) {
+console.log(imgData)
+let width=tempImageThumb.offsetWidth,height=tempImageThumb.offsetHeight;
+     var doc = new jsPDF(
+                {
+                orientation: width > height ? 'landscape' : 'portrait',
+                 unit: 'pt',
+                 format: [0.75 * width, 0.75* height]
+            }
+            );
+            doc.addImage(imgData, 'PNG', 0, 0);
+            doc.save('sample-file.pdf');
+            tempImageThumb.innerHTML==""
+    })
+
+
+</script>
+
+</html>
